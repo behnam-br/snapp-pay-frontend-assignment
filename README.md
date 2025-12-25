@@ -7,8 +7,8 @@ A React project built from scratch with Webpack 5 and TypeScript — no Create R
 - **React 19** — UI library
 - **TypeScript 5** — Type safety
 - **Webpack 5** — Module bundler (modular configuration)
-- **SASS** — CSS preprocessor
-- **React Router 7** — Client-side routing
+- **SASS** — CSS preprocessor with CSS Modules support
+- **React Router 7** — Client-side routing with error boundaries
 - **Axios** — HTTP client
 - **ESLint** — Code linting with import sorting
 - **Prettier** — Code formatting
@@ -18,42 +18,54 @@ A React project built from scratch with Webpack 5 and TypeScript — no Create R
 ## Project Structure
 
 ```
-frontend/
 ├── .husky/                  # Git hooks (pre-commit, commit-msg)
 ├── .vscode/                 # VS Code/Cursor workspace settings
 │   ├── extensions.json      # Recommended extensions
 │   └── settings.json        # Editor settings (format on save, etc.)
 ├── src/
 │   ├── api/                 # API layer
-│   │   └── http.ts          # HTTP utilities
-│   ├── app/                 # Application core
-│   │   ├── global.scss      # Global styles
-│   │   ├── global.d.ts      # Module declarations for assets
-│   │   ├── index.tsx        # Application entry point
-│   │   └── index.html       # HTML template
+│   │   └── http.ts          # Axios instance configuration
+│   ├── app/                 # Feature pages/modules
+│   │   ├── home/            # Home page
+│   │   │   ├── home-page.tsx
+│   │   │   └── home-page.scss
+│   │   └── routes.tsx       # Route configuration and router creation
 │   ├── assets/              # Images, fonts, and other static files
 │   ├── components/          # Reusable UI components
-│   │   ├── layout/          # Layout components (MainLayout, etc.)
+│   │   ├── layout/          # Layout components
+│   │   │   ├── error-boundary.tsx       # Route error handling
+│   │   │   ├── error-boundary.module.scss
+│   │   │   ├── main-layout.tsx          # App shell/layout
+│   │   │   ├── main-layout.module.scss
+│   │   │   ├── page-loader.tsx          # Lazy route loading spinner
+│   │   │   └── page-loader.module.scss
 │   │   └── ui/              # UI primitives (Button, Input, Modal)
-│   ├── lib/                 # Third-party library configurations
-│   │   ├── axios/           # Axios instance and interceptors
-│   │   ├── mui/             # Material UI theme and setup
-│   │   └── react-query/     # React Query client configuration
-│   ├── modules/             # Feature modules (domain-specific code)
-│   │   ├── home/            # Home page module
-│   │   └── products/        # Products page module
-│   ├── routes/              # Route definitions and configuration
-│   │   ├── routes.tsx       # Route configuration
-│   │   └── main-loading.tsx # Loading component for lazy routes
-│   └── shared/              # Shared utilities, hooks, and helpers
+│   ├── lib/                 # Third-party library wrappers
+│   │   ├── axios/           # Axios interceptors (placeholder)
+│   │   ├── mui/             # Material UI theme (placeholder)
+│   │   ├── react-query/     # React Query client (placeholder)
+│   │   └── router/          # React Router utilities
+│   │       ├── components/  # Enhanced Link/NavLink with prefetching
+│   │       │   ├── link.tsx
+│   │       │   ├── nav-link.tsx
+│   │       │   └── use-prefetch.ts
+│   │       └── utils.tsx    # Route helpers (lazy loading, Suspense)
+│   ├── shared/              # Shared utilities, hooks, and helpers
+│   │   ├── hooks/           # Custom React hooks
+│   │   └── utils/           # Utility functions
+│   │       └── merge-refs.ts
+│   ├── global.d.ts          # TypeScript declarations for assets
+│   ├── global.scss          # Global styles and CSS reset
+│   ├── index.html           # HTML template
+│   └── index.tsx            # Application entry point
 ├── webpack/                 # Modular Webpack configuration
-│   ├── ctx.ts               # Build context utilities
+│   ├── ctx.ts               # Build context (dev/prod/analyze flags)
 │   ├── devServer.ts         # Dev server configuration
 │   ├── optimization.ts      # Optimization settings
 │   ├── optimization/        # Optimization modules
 │   │   ├── splitChunks.ts   # Code splitting configuration
 │   │   └── terser.ts        # Terser minification
-│   ├── paths.ts             # Path aliases and directories
+│   ├── paths.ts             # Path constants
 │   ├── plugins.ts           # Plugin aggregator
 │   ├── plugins/             # Individual plugins
 │   │   ├── bundleAnalyzer.ts
@@ -73,9 +85,9 @@ frontend/
 │   │   └── typeChecker.ts
 │   ├── rules.ts             # Rule aggregator
 │   ├── rules/               # Individual loaders/rules
-│   │   ├── assets.ts        # Asset handling
+│   │   ├── assets.ts        # Image/font handling
 │   │   ├── json.ts          # JSON loader
-│   │   ├── styles.ts        # SCSS/CSS loaders
+│   │   ├── styles.ts        # SCSS/CSS loaders (with CSS Modules)
 │   │   ├── svg.ts           # SVG loader (SVGR)
 │   │   └── typescript.ts    # TypeScript loader
 │   └── types.d.ts           # Webpack type declarations
@@ -111,7 +123,7 @@ Start the development server with hot module replacement:
 npm start
 ```
 
-The app will open automatically at [http://localhost:3000](http://localhost:3000).
+The app runs at [http://localhost:3000](http://localhost:3000).
 
 ### Production Build
 
@@ -171,7 +183,7 @@ Imports are automatically sorted on save:
 
 ```tsx
 // 1. Styles (CSS/SCSS) - first
-import '@/app/global.scss';
+import '@/global.scss';
 
 // 2. External packages
 import React from 'react';
@@ -179,8 +191,8 @@ import React from 'react';
 // 3. Internal aliases (@/)
 import { MainLayout } from '@/components/layout/main-layout';
 
-// 4. Relative imports
-import { utils } from './utils';
+// 4. Type imports
+import type { RouteObject } from 'react-router-dom';
 ```
 
 ### Prettier
@@ -221,6 +233,7 @@ git commit -m "fix: resolve login button alignment"
 - ⚡ **Hot Module Replacement** — See changes instantly without full reload
 - 🔷 **TypeScript** — Full type safety and IntelliSense
 - 🎨 **SASS/SCSS** — Variables, nesting, mixins, and more
+- 🧩 **CSS Modules** — Scoped styles with `.module.scss` files
 - 📦 **Asset Handling** — Images and fonts are automatically processed and hashed
 - 🗂️ **Path Aliases** — Use `@/` to import from `src/`
 - 🧹 **Clean Builds** — Output directory is cleaned before each build
@@ -229,8 +242,42 @@ git commit -m "fix: resolve login button alignment"
 - 🔍 **Import Sorting** — Automatic import organization with styles first
 - 📊 **Bundle Analyzer** — Visualize bundle size with webpack-bundle-analyzer
 - 🔄 **Circular Dependency Detection** — Warns about circular imports
-- 🗜️ **Compression** — Gzip compression for production builds
+- 🗜️ **Compression** — Gzip and Brotli compression for production builds
 - ⚙️ **Modular Webpack Config** — Clean, maintainable build configuration
+- 🚨 **Error Boundaries** — Custom error pages for route errors
+
+## Styling
+
+### CSS Modules (Scoped Styles)
+
+For component-scoped styles, use `.module.scss` files:
+
+```tsx
+import styles from '@/components/layout/main-layout.module.scss';
+
+export function MainLayout() {
+  return <div className={styles['main-layout']}>...</div>;
+}
+```
+
+```scss
+// main-layout.module.scss
+.main-layout {
+  min-height: 100vh;
+  display: flex;
+}
+```
+
+In development, class names are readable: `main-layout__container--abc123`  
+In production, class names are optimized: `abc123`
+
+### Global Styles
+
+For global styles (resets, fonts, variables), use regular `.scss` files:
+
+```tsx
+import '@/global.scss'; // Side-effect import
+```
 
 ## Importing Assets
 
@@ -244,7 +291,7 @@ import logo from '@/assets/logo.png';
 
 Or use the assets folder directly (copied to dist):
 ```tsx
-<img src="/images/logo.png" alt="Logo" />
+<img src="/assets/logo.png" alt="Logo" />
 ```
 
 ### SVG as Components
@@ -270,8 +317,44 @@ import { ReactComponent as Icon } from '@/assets/icon.svg';
 import { Button } from '@/components/ui/Button';
 import { MainLayout } from '@/components/layout/main-layout';
 import { useAuth } from '@/shared/hooks/useAuth';
-import { api } from '@/lib/axios';
+import { http } from '@/api/http';
 ```
+
+## Error Handling
+
+The app includes a custom error boundary for route errors:
+
+```tsx
+// src/app/routes.tsx
+export const routeTree: RouteObject[] = [
+  {
+    path: '/',
+    element: <MainLayout />,
+    errorElement: <ErrorBoundary />,  // Custom error UI
+    children: [...]
+  }
+];
+```
+
+The error boundary handles:
+- **404 errors** — Page not found
+- **JavaScript errors** — Runtime errors in components
+- **Chunk loading failures** — Network issues with lazy-loaded routes
+
+In development mode, a collapsible stack trace is shown for debugging.
+
+## Route Prefetching
+
+Custom `Link` and `NavLink` components support route prefetching:
+
+```tsx
+import { Link } from '@/lib/router/components/link';
+
+// Prefetch on hover/focus/visibility
+<Link to="/products" prefetch>Products</Link>
+```
+
+The route chunk is loaded before the user clicks, making navigation instant.
 
 ## IDE Setup
 
