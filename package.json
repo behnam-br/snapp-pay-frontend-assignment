@@ -24,6 +24,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/roboto": "^5.2.9",
+    "@mui/material": "^7.3.6",
     "@tanstack/react-query": "^5.90.12",
     "axios": "^1.11.0",
     "circular-dependency-plugin": "^5.2.2",

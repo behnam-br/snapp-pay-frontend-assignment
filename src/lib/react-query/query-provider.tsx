@@ -4,11 +4,7 @@ import { queryClient } from '@/lib/react-query/query-client';
 
 import type { ReactNode } from 'react';
 
-/**
- * Props for {@link QueryProvider}.
- */
 interface QueryProviderProps {
-  /** React subtree that should have access to the React Query client and cache. */
   children: ReactNode;
 }
 
