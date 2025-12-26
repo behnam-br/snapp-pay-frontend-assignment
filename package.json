@@ -24,6 +24,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@tanstack/react-query": "^5.90.12",
     "axios": "^1.11.0",
     "circular-dependency-plugin": "^5.2.2",
     "react": "^19.2.3",

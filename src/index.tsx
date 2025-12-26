@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
 import { router } from '@/app/routes';
+import { QueryProvider } from '@/lib/react-query/query-provider';
 
 const container = document.getElementById('root');
 
@@ -15,6 +16,8 @@ if (!container) {
 const root = createRoot(container);
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryProvider>
+      <RouterProvider router={router} />
+    </QueryProvider>
   </StrictMode>
 );
