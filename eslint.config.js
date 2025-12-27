@@ -36,6 +36,9 @@ export default tseslint.config(
         version: 'detect',
       },
       'import/resolver': {
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
+        },
         typescript: {
           alwaysTryTypes: true,
           project: './tsconfig.json',
