@@ -1,4 +1,4 @@
-export interface Passenger {
+export interface Contact {
   id: number;
   first_name: string;
   last_name: string;
@@ -26,16 +26,16 @@ export interface PaginatedResponse<T> {
   items: T[];
 }
 
-export type PassengerListResponse = PaginatedResponse<Passenger>;
+export type ContactListResponse = PaginatedResponse<Contact>;
 
-export interface GetPassengersParams {
+export interface GetContactListParams {
   limit?: number;
   skip?: number;
   sort?: string;
-  where?: PassengerWhereFilter;
+  where?: ContactWhereFilter;
 }
 
-export interface PassengerWhereFilter {
+export interface ContactWhereFilter {
   first_name?: StringFilter;
   last_name?: StringFilter;
   email?: StringFilter;

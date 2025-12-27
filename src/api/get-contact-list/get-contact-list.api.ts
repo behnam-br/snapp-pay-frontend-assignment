@@ -4,14 +4,14 @@ import { errorAdapter, responseAdapter } from '@/lib/axios/adapters';
 import { ApiResponse } from '@/lib/axios/api-types';
 import { http } from '@/lib/axios/http';
 
-import type { GetPassengersParams, PassengerListResponse } from '@/api/passenger.types';
+import type { ContactListResponse, GetContactListParams } from '@/api/contact.types';
 
-const getPassengersEndpoint = '/passenger';
+const getContactListEndpoint = '/passenger';
 
-export async function getPassengers(
-  params?: GetPassengersParams,
+export async function getContactList(
+  params?: GetContactListParams,
   options?: { signal?: AbortSignal }
-): Promise<ApiResponse<PassengerListResponse>> {
+): Promise<ApiResponse<ContactListResponse>> {
   try {
     const queryParams: Record<string, string> = {};
     if (params?.limit !== undefined) {
@@ -26,11 +26,11 @@ export async function getPassengers(
     if (params?.where) {
       queryParams.where = JSON.stringify(params.where);
     }
-    const response = await http.get<PassengerListResponse>(getPassengersEndpoint, {
+    const response = await http.get<ContactListResponse>(getContactListEndpoint, {
       params: queryParams,
       signal: options?.signal,
     });
-    return <ApiResponse<PassengerListResponse>>responseAdapter(response);
+    return <ApiResponse<ContactListResponse>>responseAdapter(response);
   } catch (error: unknown) {
     return Promise.reject(await errorAdapter(error as AxiosError));
   }
