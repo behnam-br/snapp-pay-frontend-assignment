@@ -3,20 +3,10 @@ import styles from '@/components/layout/error-boundary.module.scss';
 import { useState } from 'react';
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
-/**
- * Error boundary component for React Router.
- * Displays a user-friendly error page when a route throws an error.
- *
- * Handles:
- * - Route errors (404, 500, etc.)
- * - JavaScript errors thrown during rendering
- * - Failed lazy-loaded chunks
- */
 export function ErrorBoundary() {
   const error = useRouteError();
   const [showStack, setShowStack] = useState(false);
 
-  // Determine error details based on error type
   let title = 'Something went wrong';
   let message = 'An unexpected error occurred. Please try again.';
   let errorName = 'Error';
@@ -24,7 +14,6 @@ export function ErrorBoundary() {
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    // React Router error response (404, 500, etc.)
     title = `${error.status} ${error.statusText}`;
     message =
       error.status === 404
@@ -33,12 +22,10 @@ export function ErrorBoundary() {
     errorName = `HTTP ${error.status}`;
     errorMessage = error.statusText;
   } else if (error instanceof Error) {
-    // JavaScript error
     errorName = error.name;
     errorMessage = error.message;
     stack = error.stack;
 
-    // Provide helpful messages for common errors
     if (error.message.includes('Failed to fetch dynamically imported module')) {
       title = 'Failed to load page';
       message = 'There was a problem loading this page. Please refresh and try again.';
