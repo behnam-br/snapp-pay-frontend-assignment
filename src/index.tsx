@@ -4,9 +4,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
-import { router } from '@/app/routes';
 import { MuiProvider } from '@/lib/mui/mui-provider';
 import { QueryProvider } from '@/lib/react-query/query-provider';
+import { router } from '@/lib/router/router';
 
 const container = document.getElementById('root');
 

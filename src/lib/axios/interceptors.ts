@@ -1,135 +1,41 @@
-import { AxiosError, AxiosResponse, HttpStatusCode } from 'axios';
+import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-import {
-  isAxiosApiError,
-  isAxiosCanceledError,
-  isAxiosNetworkError,
-  isAxiosTimeoutError,
-} from '@/lib/axios/predicates';
-import { ApiError, ApiResponse, AxiosErrorCode, AxiosErrorCodeKeys } from '@/lib/axios/res-types';
+import { ApiError } from '@/lib/axios/api-types';
 
-export function responseInterceptor(response: AxiosResponse): ApiResponse<unknown> {
-  return { status: response.status, message: response.statusText, data: response.data };
+export function requestInterceptorOnFulfilled(
+  config: InternalAxiosRequestConfig
+): InternalAxiosRequestConfig {
+  if (__DEV__) {
+    console.log(`🌐 [${config.method?.toUpperCase()}] ${config.baseURL}${config.url}`);
+  }
+
+  return config;
 }
 
-export async function errorInterceptor(error: AxiosError): Promise<ApiError<unknown>> {
-  const apiError = await transformResponseError(error);
-
-  switch (apiError.status) {
-    case 401:
-      handleUnauthorized();
-      break;
-    case 403:
-      handleForbidden();
-      break;
-    case 503:
-      handleServiceUnavailable();
-      break;
-  }
-
-  return apiError;
-}
-
-async function transformResponseError(
-  error: AxiosError | unknown | undefined | Error
-): Promise<ApiError<unknown>> {
-  if (isAxiosCanceledError(error)) {
-    return {
-      status: 0,
-      code: AxiosErrorCodeKeys.REQUEST_CANCELED,
-      message: getDefaultMessage(AxiosErrorCodeKeys.REQUEST_CANCELED),
-    };
-  }
-  if (isAxiosTimeoutError(error)) {
-    return {
-      status: 0,
-      code: AxiosErrorCodeKeys.REQUEST_TIMEOUT,
-      message: getDefaultMessage(AxiosErrorCodeKeys.REQUEST_TIMEOUT),
-    };
-  }
-  if (isAxiosNetworkError(error)) {
-    const hasInternet = await checkInternetConnection();
-    if (hasInternet) {
-      return {
-        status: 0,
-        code: AxiosErrorCodeKeys.SERVER_UNREACHABLE,
-        message: getDefaultMessage(AxiosErrorCodeKeys.SERVER_UNREACHABLE),
-      };
+export function requestInterceptorOnRejected(err: unknown): Promise<ApiError> {
+  if (__DEV__) {
+    let message = 'unknown error';
+    if (err && typeof err === 'object' && 'message' in err) {
+      message = (err as AxiosError).message;
     }
-    return {
-      status: 0,
-      code: AxiosErrorCodeKeys.NO_INTERNET,
-      message: getDefaultMessage(AxiosErrorCodeKeys.NO_INTERNET),
-    };
-  }
-  if (isAxiosApiError(error)) {
-    return {
-      status: error.response.status,
-      code: AxiosErrorCodeKeys.API_ERROR,
-      message: error.message,
-      data: error.response.data,
-    };
+    console.error('❌ Request interceptor error', message);
   }
 
-  return {
-    status: 0,
-    code: AxiosErrorCodeKeys.REQUEST_SETUP_ERROR,
-    message: (error as unknown as Error).message
-      ? (error as unknown as Error).message
-      : getDefaultMessage(AxiosErrorCodeKeys.REQUEST_SETUP_ERROR),
-  };
+  return Promise.reject(err);
 }
 
-async function checkInternetConnection(): Promise<boolean> {
-  if (!navigator.onLine) {
-    return false;
-  }
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-    const response = await fetch('https://www.google.com/generate_204', {
-      method: 'HEAD',
-      mode: 'no-cors',
-      cache: 'no-store',
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    return response.type === 'opaque' || response.ok;
-  } catch {
-    return false;
-  }
-}
-
-function getDefaultMessage(status: HttpStatusCode | AxiosErrorCode): string {
-  const messages: Record<string, string> = {
-    REQUEST_SETUP_ERROR: 'Failed to prepare request. Please try again later.',
-    API_ERROR: 'An unexpected error occurred. Please try again later.',
-    NO_INTERNET: 'No internet connection. Please check your network and try again.',
-    SERVER_UNREACHABLE: 'Server is not responding. Please try again later.',
-    REQUEST_CANCELED: 'Request was canceled.',
-    REQUEST_TIMEOUT: 'Request timed out. Please try again.',
-  };
-
-  return messages[status] || `Request failed with status ${status}`;
-}
-
-function handleUnauthorized(): void {
+export function responseInterceptorOnFulfilled(response: AxiosResponse): AxiosResponse {
   if (__DEV__) {
-    console.warn('🔐 Unauthorized');
+    console.log(`✅ [${response.status}] ${response.config.url}`);
   }
+
+  return response;
 }
 
-function handleForbidden(): void {
+export async function responseInterceptorOnRejected(error: AxiosError): Promise<never> {
   if (__DEV__) {
-    console.warn('🚫 Forbidden');
+    console.error(`❌ [${error.status}] ${error.config?.url}`, error.message);
   }
-}
 
-function handleServiceUnavailable(): void {
-  if (__DEV__) {
-    console.warn('🔧 Service unavailable');
-  }
+  return Promise.reject(error);
 }

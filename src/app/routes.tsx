@@ -1,31 +1,26 @@
-import { createBrowserRouter, RouteObject } from 'react-router-dom';
-
 import { ErrorBoundary } from '@/components/layout/error-boundary';
-import { MainLayout } from '@/components/layout/main-layout';
-import { getRouteComponents, RouteConfig, withSuspense } from '@/lib/router/utils';
 
-export const routes = [
+import type { RouteObject } from 'react-router-dom';
+
+export const routes: RouteObject[] = [
   {
     path: '/',
-    load: () => import('@/app/home/home-page'),
-    component: 'HomePage',
-  },
-] as const satisfies readonly RouteConfig[];
-
-export const RouteComponents = getRouteComponents(routes);
-
-export const routeTree: RouteObject[] = [
-  {
-    path: '/',
-    element: <MainLayout />,
     errorElement: <ErrorBoundary />,
     children: [
       {
         index: true,
-        element: withSuspense(RouteComponents.HomePage),
+        lazy: () =>
+          import('@/app/home/home-page').then((module) => ({
+            Component: module.HomePage,
+          })),
+      },
+      {
+        path: '/product',
+        lazy: () =>
+          import('@/app/product/product-page').then((module) => ({
+            Component: module.ProductPage,
+          })),
       },
     ],
   },
 ];
-
-export const router = createBrowserRouter(routeTree);
