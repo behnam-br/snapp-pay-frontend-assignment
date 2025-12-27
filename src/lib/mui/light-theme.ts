@@ -1,18 +1,5 @@
 import { createTheme } from '@mui/material';
 
-/**
- * Application light theme configuration for Material UI (MUI).
- *
- * @remarks
- * This theme sets:
- * - `palette.mode` to `"light"`
- * - primary/secondary brand colors
- * - default background and paper surfaces
- * - primary/secondary text colors
- *
- * Import and provide this theme via `ThemeProvider` (see `MuiProvider`) to ensure
- * consistent styling across the application.
- */
 export const lightTheme = createTheme({
   palette: {
     mode: 'light',

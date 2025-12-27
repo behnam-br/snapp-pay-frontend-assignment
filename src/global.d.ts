@@ -1,8 +1,8 @@
-// Global constants defined by webpack.DefinePlugin
+// TypeScript ambient declarations for build-time globals (__DEV__/__PROD__)
+// and non-TS asset imports (CSS modules, images, SVG as ReactComponent, fonts).
+
 declare const __DEV__: boolean;
 declare const __PROD__: boolean;
-
-// CSS Modules declaration
 declare module '*.css' {
   const content: { [className: string]: string };
   export default content;
@@ -18,7 +18,6 @@ declare module '*.sass' {
   export default content;
 }
 
-// Image file declarations
 declare module '*.png' {
   const value: string;
   export default value;
@@ -39,7 +38,6 @@ declare module '*.gif' {
   export default value;
 }
 
-// SVG as React component (SVGR) and as URL
 declare module '*.svg' {
   import * as React from 'react';
 
@@ -50,7 +48,6 @@ declare module '*.svg' {
   export default src;
 }
 
-// Font file declarations
 declare module '*.woff' {
   const value: string;
   export default value;
