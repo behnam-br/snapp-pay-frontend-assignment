@@ -14,6 +14,7 @@ export interface ApiError<Data = unknown> {
 export type AxiosErrorCode =
   | 'REQUEST_SETUP_ERROR'
   | 'API_ERROR'
+  | 'INVALID_RESPONSE'
   | 'NO_INTERNET'
   | 'SERVER_UNREACHABLE'
   | 'REQUEST_CANCELED'
@@ -23,6 +24,7 @@ export type AxiosErrorCode =
 export enum AxiosErrorCodeKeys {
   REQUEST_SETUP_ERROR = 'REQUEST_SETUP_ERROR',
   API_ERROR = 'API_ERROR',
+  INVALID_RESPONSE = 'INVALID_RESPONSE',
   NO_INTERNET = 'NO_INTERNET',
   SERVER_UNREACHABLE = 'SERVER_UNREACHABLE',
   REQUEST_CANCELED = 'REQUEST_CANCELED',

@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-import { ApiError } from '@/lib/axios/api-types';
+import { ApiError } from '@/lib/axios/utils/api-types';
 
 export function requestInterceptorOnFulfilled(
   config: InternalAxiosRequestConfig

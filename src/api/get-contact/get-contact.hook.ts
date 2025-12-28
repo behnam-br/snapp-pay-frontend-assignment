@@ -1,9 +1,9 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 
 import { getContact } from '@/api/get-contact/get-contact.api';
-import { ApiError, ApiResponse } from '@/lib/axios/api-types';
+import { ApiError, ApiResponse } from '@/lib/axios/utils/api-types';
 
-import type { Contact } from '@/api/contact.types';
+import type { Contact } from '@/api/get-contact/get-contact.types';
 
 export const contactKeys = {
   all: ['contact'] as const,
