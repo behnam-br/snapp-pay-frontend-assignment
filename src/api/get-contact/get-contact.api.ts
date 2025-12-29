@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import { mapContact } from '@/api/get-contact/get-contact.mappers';
-import { ContactDto, ContactSchema } from '@/api/get-contact/get-contact.schemas';
+import { ContactDto, contactSchema } from '@/api/get-contact/get-contact.schemas';
 import { http } from '@/lib/axios/http';
 import { errorAdapter, responseAdapter } from '@/lib/axios/utils/adapters';
 import { ApiResponse } from '@/lib/axios/utils/api-types';
@@ -21,7 +21,7 @@ export async function getContact(
     });
     const api = responseAdapter(response) as ApiResponse<ContactDto>;
     try {
-      const dto = await parseSchema(ContactSchema, { ...api.data });
+      const dto = await parseSchema(contactSchema, { ...api.data });
       const mapped = mapContact(dto);
       return <ApiResponse<Contact>>{
         status: api.status,

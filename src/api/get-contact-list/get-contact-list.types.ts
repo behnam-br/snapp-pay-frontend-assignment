@@ -1,14 +1,34 @@
-import { ContactDto } from '@/api/get-contact/get-contact.schemas';
 import { Contact } from '@/api/get-contact/get-contact.types';
-import { Paginated, PaginatedParam } from '@/lib/axios/utils/paginated.schemas';
 
-export type ContactListCriteriaKeys = Array<
-  keyof Pick<Contact, 'firstName' | 'lastName' | 'phone'>
->;
-export type ContactList = Paginated<ContactListCriteriaKeys, Contact>;
+export type ContactList = {
+  items: Contact[];
+  meta: {
+    totalCount: number;
+    totalPages: number;
+    page: number;
+  };
+};
 
-export type ContactListParamKeys = Array<
-  keyof Pick<ContactDto, 'first_name' | 'last_name' | 'phone'>
->;
+export type ContactListFilters = {
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+};
 
-export type ContactListParam = PaginatedParam<ContactListParamKeys>;
+export type ContactListParams = {
+  page: number;
+  limit: number;
+  filters: ContactListFilters;
+};
+
+export type ContactListWhere = {
+  first_name?: { contains: string | undefined };
+  last_name?: { contains: string | undefined };
+  phone?: { contains: string | undefined };
+};
+
+export type ContactListParamsDto = {
+  skip: number;
+  limit: number;
+  where: ContactListWhere;
+};

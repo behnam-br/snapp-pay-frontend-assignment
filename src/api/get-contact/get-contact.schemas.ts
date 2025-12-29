@@ -1,10 +1,15 @@
 import { z } from 'zod';
 
-export const ContactSchema = z.object({
+export const contactSchema = z.object({
   id: z.number(),
   first_name: z.string(),
   last_name: z.string(),
-  phone: z.string(),
+  phone: z
+    .string()
+    .refine(
+      (val) => !val || /^[0-9+\-\s()]*$/.test(val),
+      'Phone can only contain numbers and + - ( )'
+    ),
   gender: z.string(),
   email: z.string().nullable(),
   note: z.string().nullable(),
@@ -16,4 +21,4 @@ export const ContactSchema = z.object({
   updatedAt: z.coerce.date(),
 });
 
-export type ContactDto = z.infer<typeof ContactSchema>;
+export type ContactDto = z.infer<typeof contactSchema>;
