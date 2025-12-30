@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 
+import envs from '@/envs';
+
 export function useSaveContact(id?: string) {
   useEffect(() => {
     if (!id) return;
     const storedContactIds: string[] = JSON.parse(
-      localStorage.getItem(process.env.VISITED_CONTACT_IDS_KEY!) ?? '[]'
+      localStorage.getItem(envs.VISITED_CONTACT_IDS_KEY) ?? '[]'
     );
     if (storedContactIds.includes(id)) {
       storedContactIds.splice(storedContactIds.indexOf(id), 1);
@@ -13,6 +15,6 @@ export function useSaveContact(id?: string) {
       storedContactIds.shift();
     }
     storedContactIds.unshift(id);
-    localStorage.setItem(process.env.VISITED_CONTACT_IDS_KEY!, JSON.stringify(storedContactIds));
+    localStorage.setItem(envs.VISITED_CONTACT_IDS_KEY, JSON.stringify(storedContactIds));
   }, [id]);
 }

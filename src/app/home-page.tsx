@@ -8,6 +8,7 @@ import { SearchForm } from '@/app/home/search-form';
 import { SearchFormDto } from '@/app/home/search-form.schema';
 import { MainContainer } from '@/components/layout/main-container';
 import { PaginationBar } from '@/components/ui/pagination-bar';
+import envs from '@/envs';
 
 export const HomePage = () => {
   const [params, setParams] = useState<ContactListParams>({
@@ -33,7 +34,9 @@ export const HomePage = () => {
 
   const visitedContactIds = useMemo(
     () =>
-      JSON.parse(localStorage.getItem('visitedContactIds') ?? '[]').map((id: string) => Number(id)),
+      JSON.parse(localStorage.getItem(envs.VISITED_CONTACT_IDS_KEY) ?? '[]').map((id: string) =>
+        Number(id)
+      ),
     []
   );
 

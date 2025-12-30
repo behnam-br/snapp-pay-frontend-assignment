@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import envs from '@/envs';
 import {
   requestInterceptorOnFulfilled,
   requestInterceptorOnRejected,
@@ -9,7 +10,7 @@ import {
 
 function createHttpClient() {
   const instance = axios.create({
-    baseURL: process.env.API_URL,
+    baseURL: envs.API_URL,
     timeout: 30000,
     headers: {
       'Content-Type': 'application/json',
