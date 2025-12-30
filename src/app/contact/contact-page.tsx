@@ -1,18 +1,16 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useContact } from '@/api/get-contact/get-contact.hook';
 import { ContactDetail } from '@/app/contact/components/contact-detail';
+import { useSaveContact } from '@/app/contact/components/use-save-contact';
 import { AxiosErrorMessage } from '@/components/ui/axios-error-message';
 import { MainLoading } from '@/components/ui/main-loading';
 import { AxiosErrorCodeKeys } from '@/lib/axios/utils/api-types';
 
 export function ContactPage() {
   const { id } = useParams();
-  useVisitedContactIds(id);
+  useSaveContact(id);
   const contact = useContact(Number(id));
-
-  console.log(contact.data?.data);
 
   if (contact.isPending) {
     return <MainLoading />;
@@ -26,21 +24,4 @@ export function ContactPage() {
     return <ContactDetail contact={contact.data.data} />;
   }
   return <></>;
-}
-
-function useVisitedContactIds(id?: string) {
-  useEffect(() => {
-    if (!id) return;
-    const storedContactIds: string[] = JSON.parse(
-      localStorage.getItem('visitedContactIds') ?? '[]'
-    );
-    if (storedContactIds.includes(id)) {
-      storedContactIds.splice(storedContactIds.indexOf(id), 1);
-    }
-    if (storedContactIds.length === 4) {
-      storedContactIds.shift();
-    }
-    storedContactIds.unshift(id);
-    localStorage.setItem('visitedContactIds', JSON.stringify(storedContactIds));
-  }, [id]);
 }

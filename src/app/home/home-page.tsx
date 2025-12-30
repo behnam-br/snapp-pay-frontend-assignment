@@ -37,7 +37,6 @@ export const HomePage = () => {
     []
   );
 
-  console.log(visitedContactIds);
   return (
     <MainContainer>
       <Grid container spacing={2}>

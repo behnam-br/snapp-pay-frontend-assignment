@@ -13,7 +13,7 @@ export function useVisitedContactListLastVisited(ids: number[]) {
 
   useEffect(() => {
     // put the contacts that are already in the cache to the last visited
-    setLastVisited((prev) => {
+    setLastVisited(() => {
       return ids
         .filter((id) => existingContacts.find((contact) => contact && contact?.data?.id === id))
         .map((id) => existingContacts.find((contact) => contact && contact?.data?.id === id)!.data);
