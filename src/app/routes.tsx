@@ -12,14 +12,14 @@ export const routes: RouteObject[] = [
       {
         index: true,
         lazy: () =>
-          import('@/app/home/home-page').then((module) => ({
+          import('@/app/home-page').then((module) => ({
             Component: module.HomePage,
           })),
       },
       {
         path: '/contact/:id',
         lazy: () =>
-          import('@/app/contact/contact-page').then((module) => ({
+          import('@/app/contact-page').then((module) => ({
             Component: module.ContactPage,
           })),
       },

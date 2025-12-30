@@ -1,14 +1,8 @@
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 
-import { FirstName } from '@/app/home/components/search-form/first-name';
-import { LastName } from '@/app/home/components/search-form/last-name';
-import { Phone } from '@/app/home/components/search-form/phone';
-import {
-  type SearchFormDto,
-  searchFormSchema,
-} from '@/app/home/components/search-form/search-form.schema';
+import { type SearchFormDto, searchFormSchema } from '@/app/home/search-form.schema';
 import { SearchIcon } from '@/components/icons/search';
 
 export type SearchFormProps = {
@@ -23,8 +17,6 @@ export function SearchForm({ onSearch, defaultValues }: SearchFormProps) {
       ...defaultValues,
     },
   });
-
-  // const values = methods.watch();
 
   const handleSubmit = methods.handleSubmit((data) => {
     onSearch(data);
@@ -66,5 +58,62 @@ export function SearchForm({ onSearch, defaultValues }: SearchFormProps) {
         </Stack>
       </Box>
     </FormProvider>
+  );
+}
+
+function FirstName() {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<SearchFormDto>();
+
+  return (
+    <TextField
+      {...register('firstName')}
+      label='First Name'
+      placeholder='Enter first name'
+      fullWidth
+      size='small'
+      error={!!errors.firstName}
+      helperText={errors.firstName?.message}
+    />
+  );
+}
+
+function LastName() {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<SearchFormDto>();
+
+  return (
+    <TextField
+      {...register('lastName')}
+      label='Last Name'
+      placeholder='Enter last name'
+      fullWidth
+      size='small'
+      error={!!errors.lastName}
+      helperText={errors.lastName?.message}
+    />
+  );
+}
+
+function Phone() {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<SearchFormDto>();
+
+  return (
+    <TextField
+      {...register('phone')}
+      label='Phone'
+      placeholder='Enter phone number'
+      fullWidth
+      size='small'
+      error={!!errors.phone}
+      helperText={errors.phone?.message}
+    />
   );
 }

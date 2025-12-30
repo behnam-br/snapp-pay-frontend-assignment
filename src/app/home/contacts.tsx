@@ -2,7 +2,7 @@ import { memo, useEffect } from 'react';
 
 import { useContactList } from '@/api/get-contact-list/get-contact-list.hook';
 import { ContactListParams } from '@/api/get-contact-list/get-contact-list.types';
-import { ContactList } from '@/app/home/components/contact-list';
+import { ContactList } from '@/app/home/contact-list';
 import { AxiosErrorMessage } from '@/components/ui/axios-error-message';
 import { MainLoading } from '@/components/ui/main-loading';
 import { AxiosErrorCodeKeys } from '@/lib/axios/utils/api-types';

@@ -2,10 +2,10 @@ import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 
 import { ContactListParams } from '@/api/get-contact-list/get-contact-list.types';
-import { Contacts } from '@/app/home/components/contacts';
-import { ContactsVisited } from '@/app/home/components/contacts-visited';
-import { SearchForm } from '@/app/home/components/search-form/search-form';
-import { SearchFormDto } from '@/app/home/components/search-form/search-form.schema';
+import { Contacts } from '@/app/home/contacts';
+import { ContactsVisited } from '@/app/home/contacts-visited';
+import { SearchForm } from '@/app/home/search-form';
+import { SearchFormDto } from '@/app/home/search-form.schema';
 import { MainContainer } from '@/components/layout/main-container';
 import { PaginationBar } from '@/components/ui/pagination-bar';
 

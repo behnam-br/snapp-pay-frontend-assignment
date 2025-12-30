@@ -1,10 +1,10 @@
 import { Card, CardContent, Divider, Stack } from '@mui/material';
 
 import { Contact } from '@/api/get-contact/get-contact.types';
-import { ContactBackLink } from '@/app/contact/components/contact-back-link';
-import { ContactFooter } from '@/app/contact/components/contact-footer';
-import { ContactHeader } from '@/app/contact/components/contact-header';
-import { ContactMain } from '@/app/contact/components/contact-main';
+import { ContactBackLink } from '@/app/contact/contact-back-link';
+import { ContactFooter } from '@/app/contact/contact-footer';
+import { ContactHeader } from '@/app/contact/contact-header';
+import { ContactMain } from '@/app/contact/contact-main';
 import { MainContainer } from '@/components/layout/main-container';
 
 export function ContactDetail({ contact }: { contact: Contact }) {

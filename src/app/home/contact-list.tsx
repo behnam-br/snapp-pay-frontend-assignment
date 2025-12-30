@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
 import { Contact } from '@/api/get-contact/get-contact.types';
-import { ContactCard } from '@/app/home/components/contact-card';
+import { ContactCard } from '@/app/home/contact-card';
 import { ListOverlay } from '@/components/ui/list-overlay';
 
 export type ContactListProps = {
