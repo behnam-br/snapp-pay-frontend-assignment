@@ -15,12 +15,12 @@
  * - Hot Module Replacement for development
  * - Bundle analysis capability
  */
-import { BuildContext, getContext, WebpackArgv, WebpackEnv } from './webpack/ctx';
-import { getDevServer } from './webpack/devServer';
-import { getOptimization } from './webpack/optimization';
-import { CACHE_DIR, CONFIG_FILE, DIST_DIR, ENTRY_FILE, SRC_DIR } from './webpack/paths';
-import { getPlugins } from './webpack/plugins';
-import { getRules } from './webpack/rules';
+import { BuildContext, getContext, WebpackArgv, WebpackEnv } from '@/../webpack/ctx';
+import { getDevServer } from '@/../webpack/devServer';
+import { getOptimization } from '@/../webpack/optimization';
+import { CACHE_DIR, CONFIG_FILE, DIST_DIR, ENTRY_FILE, SRC_DIR } from '@/../webpack/paths';
+import { getPlugins } from '@/../webpack/plugins';
+import { getRules } from '@/../webpack/rules';
 
 import type { Configuration as WebpackConfiguration } from 'webpack';
 

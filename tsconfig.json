@@ -19,7 +19,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "ts-node": {
     "esm": true,
@@ -28,6 +29,6 @@
       "moduleResolution": "node"
     }
   },
-  "include": ["src/**/*", "webpack.config.ts", "webpack/**/*"],
+  "include": ["src/**/*", "webpack.config.ts", "webpack/**/*", "vitest.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -16,7 +16,7 @@ function validateEnvVars(ctx: BuildContext): void {
 
   // Load from file if exists
   if (fs.existsSync(envPath)) {
-    dotenv.config({ path: envPath });
+    dotenv.config({ path: envPath, quiet: true });
   }
 
   const missing = REQUIRED_ENV_VARS.filter((key) => !process.env[key]);

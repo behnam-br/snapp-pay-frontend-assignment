@@ -1,12 +1,17 @@
 import { AxiosError, AxiosProgressEvent, AxiosResponse, HttpStatusCode } from 'axios';
 
-import { ApiError, ApiResponse, AxiosErrorCode, AxiosErrorCodeKeys } from '@/lib/axios/api-types';
+import {
+  ApiError,
+  ApiResponse,
+  AxiosErrorCode,
+  AxiosErrorCodeKeys,
+} from '@/lib/axios/utils/api-types';
 import {
   isAxiosApiError,
   isAxiosCanceledError,
   isAxiosNetworkError,
   isAxiosTimeoutError,
-} from '@/lib/axios/predicate-types';
+} from '@/lib/axios/utils/predicate-types';
 
 export function responseAdapter(response: AxiosResponse): ApiResponse<unknown> {
   return { status: response.status, message: response.statusText, data: response.data };
@@ -14,18 +19,6 @@ export function responseAdapter(response: AxiosResponse): ApiResponse<unknown> {
 
 export async function errorAdapter(error: AxiosError): Promise<ApiError<unknown>> {
   const apiError = await transformResponseError(error);
-
-  switch (apiError.status) {
-    case 401:
-      handleUnauthorized();
-      break;
-    case 403:
-      handleForbidden();
-      break;
-    case 503:
-      handleServiceUnavailable();
-      break;
-  }
 
   return apiError;
 }
@@ -116,10 +109,11 @@ async function checkInternetConnection(): Promise<boolean> {
   }
 }
 
-function getDefaultMessage(status: HttpStatusCode | AxiosErrorCode): string {
+export function getDefaultMessage(status: HttpStatusCode | AxiosErrorCode): string {
   const messages: Record<string, string> = {
     REQUEST_SETUP_ERROR: 'Failed to prepare request. Please try again later.',
     API_ERROR: 'An unexpected error occurred. Please try again later.',
+    INVALID_RESPONSE: 'Invalid response from server. Please try again later.',
     NO_INTERNET: 'No internet connection. Please check your network and try again.',
     SERVER_UNREACHABLE: 'Server is not responding. Please try again later.',
     REQUEST_CANCELED: 'Request was canceled.',
@@ -129,20 +123,8 @@ function getDefaultMessage(status: HttpStatusCode | AxiosErrorCode): string {
   return messages[status] || `Request failed with status ${status}`;
 }
 
-function handleUnauthorized(): void {
-  if (__DEV__) {
-    console.warn('🔐 Unauthorized');
-  }
-}
-
-function handleForbidden(): void {
-  if (__DEV__) {
-    console.warn('🚫 Forbidden');
-  }
-}
-
-function handleServiceUnavailable(): void {
-  if (__DEV__) {
-    console.warn('🔧 Service unavailable');
-  }
-}
+export const invalidResponseError = {
+  status: 0,
+  code: AxiosErrorCodeKeys.INVALID_RESPONSE,
+  message: getDefaultMessage(AxiosErrorCodeKeys.INVALID_RESPONSE),
+};
