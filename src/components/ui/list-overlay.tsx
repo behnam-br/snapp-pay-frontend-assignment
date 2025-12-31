@@ -4,6 +4,8 @@ export function ListOverlay({ isFetching }: { isFetching: boolean }) {
   if (!isFetching) return <></>;
   return (
     <Box
+      role='presentation'
+      aria-label='list overlay'
       sx={{
         position: 'absolute',
         top: 0,

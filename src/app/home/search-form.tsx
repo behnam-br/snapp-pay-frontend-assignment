@@ -31,7 +31,13 @@ export function SearchForm({ onSearch, defaultValues }: SearchFormProps) {
 
   return (
     <FormProvider {...methods}>
-      <Box component='form' onSubmit={handleSubmit} width='100%' padding={2}>
+      <Box
+        component='form'
+        onSubmit={handleSubmit}
+        width='100%'
+        padding={2}
+        aria-label='search form'
+      >
         <Stack
           direction={{ xs: 'column', sm: 'column', md: 'row' }}
           spacing={2}
@@ -42,11 +48,12 @@ export function SearchForm({ onSearch, defaultValues }: SearchFormProps) {
           <LastName />
           <Phone />
           <Stack direction='row' spacing={1} sx={{ minWidth: 'fit-content' }}>
-            <Button type='submit' variant='contained' size='small'>
+            <Button type='submit' variant='contained' size='small' aria-label='search'>
               <SearchIcon sx={{ fontSize: 30 }} />
             </Button>
             <Button
               type='button'
+              aria-label='reset'
               variant='outlined'
               size='small'
               onClick={handleReset}
@@ -70,12 +77,13 @@ function FirstName() {
   return (
     <TextField
       {...register('firstName')}
-      label='First Name'
+      label='first name'
       placeholder='Enter first name'
       fullWidth
       size='small'
       error={!!errors.firstName}
       helperText={errors.firstName?.message}
+      aria-label='first name'
     />
   );
 }
@@ -89,12 +97,13 @@ function LastName() {
   return (
     <TextField
       {...register('lastName')}
-      label='Last Name'
+      label='Last name'
       placeholder='Enter last name'
       fullWidth
       size='small'
       error={!!errors.lastName}
       helperText={errors.lastName?.message}
+      aria-label='last name'
     />
   );
 }
@@ -108,12 +117,13 @@ function Phone() {
   return (
     <TextField
       {...register('phone')}
-      label='Phone'
+      label='phone'
       placeholder='Enter phone number'
       fullWidth
       size='small'
       error={!!errors.phone}
       helperText={errors.phone?.message}
+      aria-label='phone'
     />
   );
 }

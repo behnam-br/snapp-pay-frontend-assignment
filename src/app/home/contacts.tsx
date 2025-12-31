@@ -37,6 +37,7 @@ export const Contacts = memo(
         <ContactList
           items={contactList.data?.data.items ?? []}
           isFetching={contactList.isFetching || contactList.isRefetching}
+          ariaLabel={'contacts'}
         />
       );
     }

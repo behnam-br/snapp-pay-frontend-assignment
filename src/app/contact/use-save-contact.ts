@@ -12,7 +12,7 @@ export function useSaveContact(id?: string) {
       storedContactIds.splice(storedContactIds.indexOf(id), 1);
     }
     if (storedContactIds.length === 4) {
-      storedContactIds.shift();
+      storedContactIds.pop();
     }
     storedContactIds.unshift(id);
     localStorage.setItem(envs.VISITED_CONTACT_IDS_KEY, JSON.stringify(storedContactIds));

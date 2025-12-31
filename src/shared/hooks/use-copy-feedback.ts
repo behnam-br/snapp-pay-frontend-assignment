@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 
+/**
+ * Hook to handle copy feedback.
+ * @param durationMs - The duration of the feedback in milliseconds.
+ * @returns An object with the copied state and the setCopied function.
+ */
 export function useCopyFeedback(durationMs = 2000) {
   const [copied, setCopied] = useState(false);
 

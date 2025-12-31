@@ -34,6 +34,8 @@ export const PaginationBar = ({
   return (
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mb: 3 }}>
       <Pagination
+        aria-label='pagination bar'
+        role='navigation'
         count={count}
         page={page}
         onChange={(_, next) => {

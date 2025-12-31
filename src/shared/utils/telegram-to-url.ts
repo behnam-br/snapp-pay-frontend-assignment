@@ -1,3 +1,8 @@
+/**
+ * Converts a Telegram username to a URL
+ * @param input - The Telegram username to convert
+ * @returns The URL of the Telegram username
+ */
 export function telegramToUrl(input: string) {
   const raw = input.trim();
   if (!raw) return null;

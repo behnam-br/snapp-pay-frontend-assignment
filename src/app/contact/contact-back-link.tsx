@@ -5,7 +5,12 @@ import { Link } from '@/lib/router/link';
 
 export function ContactBackLink() {
   return (
-    <MuiLink to='/' component={Link} sx={{ textDecoration: 'none', width: 'fit-content' }}>
+    <MuiLink
+      to='/'
+      component={Link}
+      sx={{ textDecoration: 'none', width: 'fit-content' }}
+      aria-label='contact back link'
+    >
       <Button variant='outlined' size='small'>
         <LeftArrowIcon />
         Back to contacts

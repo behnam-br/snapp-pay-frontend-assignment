@@ -20,18 +20,6 @@ export function responseAdapter(response: AxiosResponse): ApiResponse<unknown> {
 export async function errorAdapter(error: AxiosError): Promise<ApiError<unknown>> {
   const apiError = await transformResponseError(error);
 
-  switch (apiError.status) {
-    case 401:
-      handleUnauthorized();
-      break;
-    case 403:
-      handleForbidden();
-      break;
-    case 503:
-      handleServiceUnavailable();
-      break;
-  }
-
   return apiError;
 }
 
@@ -121,7 +109,7 @@ async function checkInternetConnection(): Promise<boolean> {
   }
 }
 
-function getDefaultMessage(status: HttpStatusCode | AxiosErrorCode): string {
+export function getDefaultMessage(status: HttpStatusCode | AxiosErrorCode): string {
   const messages: Record<string, string> = {
     REQUEST_SETUP_ERROR: 'Failed to prepare request. Please try again later.',
     API_ERROR: 'An unexpected error occurred. Please try again later.',
@@ -140,21 +128,3 @@ export const invalidResponseError = {
   code: AxiosErrorCodeKeys.INVALID_RESPONSE,
   message: getDefaultMessage(AxiosErrorCodeKeys.INVALID_RESPONSE),
 };
-
-function handleUnauthorized(): void {
-  if (__DEV__) {
-    console.warn('🔐 Unauthorized');
-  }
-}
-
-function handleForbidden(): void {
-  if (__DEV__) {
-    console.warn('🚫 Forbidden');
-  }
-}
-
-function handleServiceUnavailable(): void {
-  if (__DEV__) {
-    console.warn('🔧 Service unavailable');
-  }
-}

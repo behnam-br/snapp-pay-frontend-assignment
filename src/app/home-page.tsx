@@ -1,5 +1,5 @@
 import { useCallback, useDeferredValue, useMemo, useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { ContactListParams } from '@/api/get-contact-list/get-contact-list.types';
 import { Contacts } from '@/app/home/contacts';
@@ -40,26 +40,47 @@ export const HomePage = () => {
     []
   );
 
+  const searchForm = (
+    <SearchForm defaultValues={{ firstName: '', lastName: '', phone: '' }} onSearch={onSearch} />
+  );
+
+  const contactsVisited = (
+    <>
+      {!!visitedContactIds.length && (
+        <Box component={'section'} aria-label='contacts section visited' width='100%'>
+          <Typography variant='h6' aria-label='contacts visited title'>
+            Contacts Visited
+          </Typography>
+          <ContactsVisited ids={visitedContactIds} />
+        </Box>
+      )}
+    </>
+  );
+
+  const contacts = (
+    <Box component={'section'} aria-label='contacts section' width='100%'>
+      <Typography variant='h6' aria-label='contacts title'>
+        Contacts
+      </Typography>
+      <Contacts params={deferredParams} onChangeTotalPages={onChangeTotalPages} />
+    </Box>
+  );
+
+  const paginationBar = (
+    <PaginationBar
+      incomingPage={params.page}
+      incomingCount={totalPages}
+      onPageChange={onPageChange}
+    />
+  );
+
   return (
     <MainContainer>
       <Grid container spacing={2}>
-        <SearchForm
-          defaultValues={{ firstName: '', lastName: '', phone: '' }}
-          onSearch={onSearch}
-        />
-        {!!visitedContactIds.length && (
-          <>
-            <Typography variant='h6'>Contacts Visited</Typography>
-            <ContactsVisited ids={visitedContactIds} />
-          </>
-        )}
-        <Typography variant='h6'>Contacts</Typography>
-        <Contacts params={deferredParams} onChangeTotalPages={onChangeTotalPages} />
-        <PaginationBar
-          incomingPage={params.page}
-          incomingCount={totalPages}
-          onPageChange={onPageChange}
-        />
+        {searchForm}
+        {contactsVisited}
+        {contacts}
+        {paginationBar}
       </Grid>
     </MainContainer>
   );

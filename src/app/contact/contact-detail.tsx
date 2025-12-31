@@ -10,7 +10,12 @@ import { MainContainer } from '@/components/layout/main-container';
 export function ContactDetail({ contact }: { contact: Contact }) {
   return (
     <MainContainer>
-      <Stack spacing={2} sx={{ mx: 'auto', maxWidth: 900, width: '100%', padding: 2 }}>
+      <Stack
+        spacing={2}
+        sx={{ mx: 'auto', maxWidth: 900, width: '100%', padding: 2 }}
+        aria-label='contact detail'
+        component='section'
+      >
         <ContactBackLink />
         <Card variant='outlined'>
           <CardContent>

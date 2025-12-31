@@ -10,7 +10,11 @@ export function ContactFooter({ contact }: { contact: Contact }) {
       <Typography variant='caption' color='text.secondary'>
         Note
       </Typography>
-      <Typography variant='body2' sx={{ whiteSpace: 'pre-line', mt: 0.5 }}>
+      <Typography
+        variant='body2'
+        sx={{ whiteSpace: 'pre-line', mt: 0.5 }}
+        aria-label='contact note'
+      >
         {contact?.note}
       </Typography>
     </>

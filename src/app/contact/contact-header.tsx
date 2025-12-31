@@ -9,6 +9,8 @@ export function ContactHeader({ contact }: { contact: Contact }) {
       src={contact?.avatar ?? undefined}
       alt={contact?.fullName ?? ''}
       sx={{ width: 72, height: 72 }}
+      aria-label='contact header avatar'
+      role='img'
     >
       {contact?.firstName?.[0]}
       {contact?.lastName?.[0]}
@@ -17,15 +19,26 @@ export function ContactHeader({ contact }: { contact: Contact }) {
 
   const info = (
     <Stack spacing={0.5} sx={{ minWidth: 0, flex: 1 }}>
-      <Typography variant='h5' noWrap>
+      <Typography variant='h5' noWrap aria-label='contact header full name'>
         {contact?.fullName}
       </Typography>
 
       <Stack direction='row' spacing={1} flexWrap='wrap' useFlexGap>
-        {contact?.company && <Chip size='small' label={'Company: ' + contact.company} />}
-        {contact?.gender && (
-          <Chip size='small' label={'Gender: ' + contact.gender} variant='outlined' />
+        {contact?.company && (
+          <Chip
+            size='small'
+            label={'Company: ' + contact.company}
+            aria-label='contact header company'
+            role='chip'
+          />
         )}
+        <Chip
+          size='small'
+          label={'Gender: ' + contact.gender}
+          variant='outlined'
+          aria-label='contact header gender'
+          role='chip'
+        />
       </Stack>
 
       {contact?.address && (
@@ -41,7 +54,7 @@ export function ContactHeader({ contact }: { contact: Contact }) {
       <Tooltip title='Call'>
         <span>
           <IconButton
-            aria-label={`Call ${contact?.fullName}`}
+            aria-label='contact header phone'
             component='a'
             href={contact?.phone ? `tel:${contact?.phone}` : undefined}
             disabled={!contact?.phone}
@@ -54,7 +67,13 @@ export function ContactHeader({ contact }: { contact: Contact }) {
   );
 
   return (
-    <Stack direction='row' spacing={2} alignItems='flex-start'>
+    <Stack
+      component={'section'}
+      aria-label='contact header'
+      direction='row'
+      spacing={2}
+      alignItems='flex-start'
+    >
       {avatar}
       {info}
       {call}

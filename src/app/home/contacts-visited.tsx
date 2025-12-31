@@ -10,5 +10,7 @@ export const ContactsVisited = memo(({ ids }: { ids: number[] }) => {
   if (ids.length > 0 && contactVisited.length === 0) {
     return <MainLoading height='11.5rem' />;
   }
-  return <ContactList items={contactVisited ?? []} isFetching={false} />;
+  return (
+    <ContactList items={contactVisited ?? []} isFetching={false} ariaLabel={'contacts visited'} />
+  );
 });

@@ -17,8 +17,8 @@ export const contactSchema = z.object({
   avatar: z.string().nullable(),
   company: z.string().nullable(),
   address: z.string().nullable(),
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
+  createdAt: z.number(),
+  updatedAt: z.number(),
 });
 
 export type ContactDto = z.infer<typeof contactSchema>;

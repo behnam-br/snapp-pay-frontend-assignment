@@ -17,7 +17,7 @@ export function mapContact(dto: ContactDto): Contact {
     avatar: dto.avatar ?? null,
     company: dto.company ?? null,
     address: dto.address ?? null,
-    createdAt: dto.createdAt.getTime(),
-    updatedAt: dto.updatedAt.getTime(),
+    createdAt: dto.createdAt,
+    updatedAt: dto.updatedAt,
   };
 }
